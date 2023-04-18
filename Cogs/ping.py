@@ -9,6 +9,8 @@ class ping(commands.Cog):
 
     @app_commands.command(name="ping")
     async def ping(self, interaction: discord.Interaction) -> None:
+        """퐁!
+        """
         await interaction.response.send_message(f"pong!")
 
 

@@ -48,6 +48,7 @@ class txt2img(commands.Cog):
         global is_drawing
         if is_drawing:
             await interaction.response.send_message(f"다른사람이 그림을 그리고 있어요!")
+            return
 
         payload = {
             "enable_hr": hires_toggle,
