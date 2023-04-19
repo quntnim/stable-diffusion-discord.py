@@ -12,6 +12,7 @@ class SD_Bocchi(commands.Bot):
         )
         self.inital_extension = [
             "Cogs.ping",
+            "Cogs.memory",
             "Cogs.get-options",
             "Cogs.set-model",
             "Cogs.txt2img",

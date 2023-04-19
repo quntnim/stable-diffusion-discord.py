@@ -24,6 +24,10 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 
 - 현재 설정되있는 모델을 바꿉니다.
 
+### /memory
+
+- 현재 서버 컴퓨터의 RAM과 VRAM 사용량을 알려 줍니다.
+
 ### /txt2img {prompt} {negative_prompt} {width} {height} {steps} {hires_toggle}
 
 - 텍스트를 그림으로 만들어 줍니다.

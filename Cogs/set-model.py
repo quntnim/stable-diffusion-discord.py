@@ -75,7 +75,7 @@ class set_model(commands.Cog):
             await interaction.response.edit_message(content='Todo: 페이지 한번에 이동하기', view=view_make())
 
         async def approve_callback(interaction : discord.Interaction):
-            await interaction.response.edit_message(content=f'**{is_selected}** 모델로 바꿀게요.', view=View())
+            await interaction.response.edit_message(content=f'**{is_selected}** 모델으로 설정할게요.', view=View())
             json_data = {}
             with open(json_path, "r") as json_file:
                 json_data = json.load(json_file)
@@ -100,6 +100,7 @@ class set_model(commands.Cog):
 
         async def cancel_callback(interaction : discord.Interaction):
             await interaction.response.edit_message(content=f'모델 변경을 취소했어요.',view=View())
+        
         selects.callback = select_callback
         left.callback = left_callback
         right.callback = right_callback

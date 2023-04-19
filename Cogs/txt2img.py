@@ -82,7 +82,7 @@ class txt2img(commands.Cog):
                 payload.update(override_payload)
                 break
 
-        await interaction.response.send_message(f"모델 불러오는 중.. **[ 준비중 ]**")
+        await interaction.response.send_message(f"모델 불러오는 중..")
         is_drawing = True
         async def getimg():
             global response, getimg_result
@@ -95,8 +95,11 @@ class txt2img(commands.Cog):
             while not getimg_result:
                 progreq = requests.get(url=f'{url}/sdapi/v1/progress')
                 prog = json.loads(progreq.text)
-                perc = prog['progress']
-                await interaction.edit_original_response(content=f"그림 그리는 중.. **[ {round(perc*100)}% | 예상 시간 : {prog['eta_relative']:.1f}초 ]**")
+                perc = round(prog['progress']*100)
+                eta = t if (t:=prog['eta_relative']) >= 0 else 0
+
+                if perc == 1:await interaction.edit_original_response(content=f"모델 불러오는 중.. **[ 1% | 예상 시간 : -초 ]**")
+                else: await interaction.edit_original_response(content=f"그림 그리는 중.. **[ {perc}% | 예상 시간 : {eta:.1f}초 ]**")
                 if getimg_result:break
                 time.sleep(0.1)
             await interaction.edit_original_response(content=f"그림 완성!")
