@@ -28,7 +28,7 @@ class SD_Bocchi(commands.Bot):
         print(self.user.name)
         print(self.user.id)
         print('---------------')
-        activity = discord.Game("상태 메세지")
+        activity = discord.Game("돚거")
         await self.change_presence(status=discord.Status.online, activity=activity)
 
 

@@ -69,13 +69,25 @@ class txt2img(commands.Cog):
             "seed": -1,
         }
 
-        await interaction.response.send_message(f"그림 그리는 중..")
+        json_data = {}
+        with open(json_path, "r") as json_file:
+            json_data = json.load(json_file)
+        user_cnt = len(json_data['users'])
+
+        override_settings = {}
+        for i in range(user_cnt):
+            if interaction.user.id == json_data['users'][i]['userid']:
+                override_settings['sd_model_checkpoint'] = json_data['users'][i]['model']
+                override_payload = {"override_settings": override_settings}
+                payload.update(override_payload)
+                break
+
+        await interaction.response.send_message(f"모델 불러오는 중.. **[ 준비중 ]**")
         is_drawing = True
         async def getimg():
             global response, getimg_result
             await asyncio.sleep(1)
             response = await asyncio.to_thread(requests.post,url=f'{url}/sdapi/v1/txt2img', json=payload)
-            print('create image done')
             getimg_result = True
             return
 
