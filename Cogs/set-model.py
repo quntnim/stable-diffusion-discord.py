@@ -12,6 +12,7 @@ from var import *
 import math
 import asyncio
 
+is_selected = {}
 class ButtonView(discord.ui.View):
     def __init__(self):
         super().__init__()
@@ -25,7 +26,7 @@ class set_model(commands.Cog):
         """현재 설정되있는 모델을 바꿉니다.
         """ 
         global page_now, is_selected
-        is_selected = False
+        is_selected[interaction.user.id] = False
         response = requests.get(url=f'{url}/sdapi/v1/sd-models')
         data = json.loads(response.text)
         model_cnt = len(data)
@@ -50,32 +51,38 @@ class set_model(commands.Cog):
         
         async def select_callback(interaction : discord.Interaction) -> None:
             global is_selected
-            is_selected = ''.join(selects.values)
-            await interaction.response.edit_message(content=f'**{is_selected}** 모델로 바꿀까요?', view=view_make())
+            is_selected[interaction.user.id] = ''.join(selects.values)
+            embed=discord.Embed(title=f"{is_selected[interaction.user.id]}", color=0x4fff4a)
+            embed.set_author(name=f"{is_selected[interaction.user.id]} 모델로 바꿀까요?")
+            embed.set_footer(text="@bocchi#9621")
+            try:
+                res = discord.File(f".\\__model_preview\\{is_selected[interaction.user.id]}.png", filename=f"{is_selected[interaction.user.id]}.png")
+                embed.set_image(url=f"attachment://{is_selected[interaction.user.id]}.png")
+                await interaction.response.edit_message(view=view_make(), embed=embed ,attachments=[res])
+            except:
+                await interaction.response.edit_message(view=view_make(), embed=embed)
+
 
         async def left_callback(interaction : discord.Interaction):
             global page_now
             if page_now != 1:page_now-=1
-            if is_selected:
-                await interaction.response.edit_message(content=f'**{is_selected}** 모델로 바꿀까요?', view=view_make())
-            else:
-                await interaction.response.edit_message(content='어떤 모델로 바꿀까요?', view=view_make())
+            await interaction.response.edit_message(view=view_make())
 
         async def right_callback(interaction : discord.Interaction):
             global page_now
             if page_now != page_lim:page_now+=1
-            if is_selected:
-                await interaction.response.edit_message(content=f'**{is_selected}** 모델로 바꿀까요?', view=view_make())
-            else:
-                await interaction.response.edit_message(content='어떤 모델로 바꿀까요?', view=view_make())
+            await interaction.response.edit_message(view=view_make())
 
         async def page_callback(interaction : discord.Interaction):
             global is_selected
-            is_selected = False
+            is_selected[interaction.user.id] = False
             await interaction.response.edit_message(content='Todo: 페이지 한번에 이동하기', view=view_make())
 
         async def approve_callback(interaction : discord.Interaction):
-            await interaction.response.edit_message(content=f'**{is_selected}** 모델으로 설정할게요.', view=View())
+            embed=discord.Embed(title=f'**{is_selected[interaction.user.id]}** 모델으로 설정할게요.', color=0x777777)
+            embed.set_footer(text="@bocchi#9621")
+            await interaction.response.edit_message(embed=embed,view=View(),attachments=[])
+
             json_data = {}
             with open(json_path, "r") as json_file:
                 json_data = json.load(json_file)
@@ -85,21 +92,25 @@ class set_model(commands.Cog):
             for i in range(user_cnt):
                 if interaction.user.id == json_data['users'][i]['userid']:
                     is_exist = True
-                    json_data['users'][i]['model'] = is_selected
+                    json_data['users'][i]['model'] = is_selected[interaction.user.id]
                     break
             
             if not is_exist:
                 json_data['users'].append({
                     "userid": interaction.user.id,
-                    "model": is_selected
+                    "model": is_selected[interaction.user.id]
                 })
             
             with open(json_path, 'w') as outfile:
                 json.dump(json_data, outfile, indent=4)
-            await interaction.edit_original_response(content=f"**{is_selected}** 모델으로 설정했어요!")
+            embed.title = f"**{is_selected[interaction.user.id]}** 모델으로 설정했어요!"
+            is_selected.pop(interaction.user.id)
+            await interaction.edit_original_response(embed=embed)
 
         async def cancel_callback(interaction : discord.Interaction):
-            await interaction.response.edit_message(content=f'모델 변경을 취소했어요.',view=View())
+            embed=discord.Embed(title=f"모델 변경을 취소했어요.", color=0xca474c)
+            embed.set_footer(text="@bocchi#9621")
+            await interaction.response.edit_message(view=View() , embed=embed ,attachments=[])
         
         selects.callback = select_callback
         left.callback = left_callback
@@ -111,7 +122,7 @@ class set_model(commands.Cog):
         def view_make():
             left.disabled = True if page_now == 1 else False
             right.disabled = True if page_now == page_lim else False
-            approve.disabled = True if is_selected == False else False
+            approve.disabled = True if is_selected[interaction.user.id] == False else False
             page.label = f"{page_now} / {page_lim}"
 
             view = View()
@@ -124,7 +135,9 @@ class set_model(commands.Cog):
             view.add_item(cancel)
             return view
 
-        await interaction.response.send_message(f"어떤 모델로 바꿀까요?", view=view_make())
+        embed=discord.Embed(title=f"아래 선택 메뉴에서 모델을 골라 주세요", color=0x777777)
+        embed.set_footer(text="@bocchi#9621")
+        await interaction.response.send_message(embed=embed, view=view_make())
 
 
 async def setup(bot: commands.Bot) -> None:

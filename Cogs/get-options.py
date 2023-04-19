@@ -28,7 +28,7 @@ class get_options(commands.Cog):
                 break
 
         if not is_exist:
-            await interaction.response.send_message(f"<@{interaction.user.name}>님은 아직 모델 설정을 하지 않으신것 같아요!\n **/set-model** 으로 설정해주세요.")
+            await interaction.response.send_message(f"<@{interaction.user.id}>님은 아직 모델 설정을 하지 않으신것 같아요!\n **/set-model** 으로 설정해주세요.")
 
 
 async def setup(bot: commands.Bot) -> None:

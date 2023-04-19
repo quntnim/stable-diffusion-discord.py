@@ -26,7 +26,8 @@ class txt2img(commands.Cog):
         width : app_commands.Range[int,64,1024] = 384, 
         height : app_commands.Range[int,64,1024] = 512,
         steps : app_commands.Range[int,1,50] = 28,
-        hires_toggle : bool = True,
+        seed : int = -1,
+        hires_toggle : bool = True
         ) -> None:
         """텍스트를 그림으로 만들어 줍니다.
 
@@ -42,6 +43,8 @@ class txt2img(commands.Cog):
             이미지의 높이 입니다. (height는 64에서 1024 사이의 정수여야 합니다.) 기본값 - 512
         steps: int
             AI가 반복해서 그림을 그릴 횟수입니다 (steps는 1에서 50 사이의 정수여야 합니다.) 기본값 - 28
+        seed : bool
+            이미지 생성의 시드값을 정합니다 기본값 - -1
         hires_toggle : bool
             hires_fix의 온오프 여부를 정합니다. 기본값 - True
         """
@@ -66,7 +69,7 @@ class txt2img(commands.Cog):
             "width": width,
             "height": height,
             "cfg_scale": 7,
-            "seed": -1,
+            "seed": seed,
         }
 
         json_data = {}
@@ -82,7 +85,7 @@ class txt2img(commands.Cog):
                 payload.update(override_payload)
                 break
 
-        await interaction.response.send_message(f"모델 불러오는 중..")
+        await interaction.response.send_message(f"그림 그리는 중..")
         is_drawing = True
         async def getimg():
             global response, getimg_result
@@ -98,7 +101,7 @@ class txt2img(commands.Cog):
                 perc = round(prog['progress']*100)
                 eta = t if (t:=prog['eta_relative']) >= 0 else 0
 
-                if perc == 1:await interaction.edit_original_response(content=f"모델 불러오는 중.. **[ 1% | 예상 시간 : -초 ]**")
+                if perc == 1:await interaction.edit_original_response(content=f"그림 그리는 중.. **[ Model Loading.. | 예상 시간 : -초 ]**")
                 else: await interaction.edit_original_response(content=f"그림 그리는 중.. **[ {perc}% | 예상 시간 : {eta:.1f}초 ]**")
                 if getimg_result:break
                 time.sleep(0.1)
@@ -132,7 +135,7 @@ class txt2img(commands.Cog):
     
         res = discord.File("D:\\github\\webuibot\\output.png", filename="output.png")
         embed=discord.Embed(title=f"@{interaction.user.name}", color=0x4fff4a)
-        embed.set_author(name="텍스트 -> 이미지")
+        embed.set_author(name="✅ 텍스트 -> 이미지")
         embed.set_image(url="attachment://output.png")
         embed.add_field(name="프롬프트", value=prompt, inline=False)
         embed.add_field(name="네거티브", value=negative_prompt, inline=False)
