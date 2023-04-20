@@ -7,7 +7,7 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 
 | 기능 | 진행도 |
 | --- | --- |
-| txt2img | 40% |
+| txt2img | 60% |
 | img2img | todo |
 | extras | todo |
 | png info | todo |
