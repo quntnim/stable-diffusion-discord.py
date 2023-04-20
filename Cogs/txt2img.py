@@ -9,9 +9,11 @@ from PIL import Image, PngImagePlugin
 import asyncio
 import time
 from var import *
+from collections import deque
 
 getimg_result = False
 is_drawing = False
+queue = deque()
 
 class txt2img(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
@@ -49,10 +51,19 @@ class txt2img(commands.Cog):
             hires_fix의 온오프 여부를 정합니다. 기본값 - True
         """
         global is_drawing
+        queued = False
         if is_drawing:
-            await interaction.response.send_message(f"다른사람이 그림을 그리고 있어요!")
-            return
-
+            await interaction.response.send_message(f"다른 그림을 다 그릴때 까지 기다리는 중..")
+            queue.append(interaction.id)
+            queued = interaction.id
+            while True:
+                if not is_drawing and queue[0] == interaction.id:
+                    queue.popleft()
+                    break
+                await interaction.edit_original_response(content = f"다른 그림을 다 그릴때 까지 기다리는 중.. **[ 대기열 : {queue.index(interaction.id)+1} ]**")
+                await asyncio.sleep(1)
+        is_drawing = True
+    
         payload = {
             "enable_hr": hires_toggle,
             "denoising_strength": 0.4,
@@ -71,7 +82,6 @@ class txt2img(commands.Cog):
             "cfg_scale": 7,
             "seed": seed,
         }
-
         json_data = {}
         with open(json_path, "r") as json_file:
             json_data = json.load(json_file)
@@ -84,9 +94,10 @@ class txt2img(commands.Cog):
                 override_payload = {"override_settings": override_settings}
                 payload.update(override_payload)
                 break
+                
+        if queued == interaction.id:await interaction.edit_original_response(content = f"그림 그리는 중..")
+        else: await interaction.response.send_message(f"그림 그리는 중..")
 
-        await interaction.response.send_message(f"그림 그리는 중..")
-        is_drawing = True
         async def getimg():
             global response, getimg_result
             await asyncio.sleep(1)
@@ -104,7 +115,7 @@ class txt2img(commands.Cog):
                 if perc == 1:await interaction.edit_original_response(content=f"그림 그리는 중.. **[ Model Loading.. | 예상 시간 : -초 ]**")
                 else: await interaction.edit_original_response(content=f"그림 그리는 중.. **[ {perc}% | 예상 시간 : {eta:.1f}초 ]**")
                 if getimg_result:break
-                time.sleep(0.1)
+                await asyncio.sleep(0.1)
             await interaction.edit_original_response(content=f"그림 완성!")
             return
 
@@ -140,7 +151,7 @@ class txt2img(commands.Cog):
         embed.add_field(name="프롬프트", value=prompt, inline=False)
         embed.add_field(name="네거티브", value=negative_prompt, inline=False)
         embed.set_footer(text="@bocchi#9621 이미지 생성")
-        await interaction.channel.send(file=res, embed=embed)
+        await interaction.edit_original_response(embed=embed,attachments=[res])
         is_drawing = False
 
 

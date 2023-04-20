@@ -22,7 +22,9 @@ class SD_Bocchi(commands.Bot):
     async def setup_hook(self):
         for ext in self.inital_extension:
             await self.load_extension(ext)
-        await bot.tree.sync(guild=discord.Object(id=guildid))
+        await bot.tree.sync(guild=discord.Object(id=guildid2))
+        # await bot.tree.sync()
+
 
     async def on_ready(self):
         print('로그인 됨')

@@ -11,7 +11,7 @@ class ping(commands.Cog):
     async def ping(self, interaction: discord.Interaction) -> None:
         """퐁!
         """
-        await interaction.response.send_message(f"pong!")
+        await interaction.response.send_message(f"pong! {interaction.id}")
 
 
 async def setup(bot: commands.Bot) -> None:
