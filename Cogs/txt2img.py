@@ -83,13 +83,17 @@ class txt2img(commands.Cog):
             "seed": seed,
         }
         json_data = {}
-        with open(json_path, "r") as json_file:
+        with open(JSON_PATH, "r") as json_file:
             json_data = json.load(json_file)
         user_cnt = len(json_data['users'])
 
         override_settings = {}
         for i in range(user_cnt):
             if interaction.user.id == json_data['users'][i]['userid']:
+                json_data['users'][i]['gen_count'] += 1
+                with open(JSON_PATH, 'w') as outfile:
+                    json.dump(json_data, outfile, indent=4)
+
                 override_settings['sd_model_checkpoint'] = json_data['users'][i]['model']
                 override_payload = {"override_settings": override_settings}
                 payload.update(override_payload)
@@ -113,7 +117,7 @@ class txt2img(commands.Cog):
                 eta = t if (t:=prog['eta_relative']) >= 0 else 0
 
                 if perc == 1:await interaction.edit_original_response(content=f"그림 그리는 중.. **[ Model Loading.. | 예상 시간 : -초 ]**")
-                else: await interaction.edit_original_response(content=f"그림 그리는 중.. **[ {perc}% | 예상 시간 : {eta:.1f}초 ]**")
+                else: await interaction.edit_original_response(content=f"그림 그리는 중.. **[ {perc}% | 예상 시간 : {eta:.1f}초 ]**\n ")
                 if getimg_result:break
                 await asyncio.sleep(0.1)
             await interaction.edit_original_response(content=f"그림 완성!")
@@ -145,8 +149,7 @@ class txt2img(commands.Cog):
             image.save('output.png', pnginfo=pnginfo)
     
         res = discord.File("D:\\github\\webuibot\\output.png", filename="output.png")
-        embed=discord.Embed(title=f"@{interaction.user.name}", color=0x4fff4a)
-        embed.set_author(name="✅ 텍스트 -> 이미지")
+        embed=discord.Embed(title=f"텍스트 -> 이미지",description=interaction.user.mention, color=0x4fff4a)
         embed.set_image(url="attachment://output.png")
         embed.add_field(name="프롬프트", value=prompt, inline=False)
         embed.add_field(name="네거티브", value=negative_prompt, inline=False)
@@ -158,5 +161,5 @@ class txt2img(commands.Cog):
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         txt2img(bot),
-        guilds=[discord.Object(id=guildid)]
+        guilds=[discord.Object(id=GUILD_ID)]
     )

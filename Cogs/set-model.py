@@ -102,7 +102,7 @@ class set_model(commands.Cog):
             await interaction.response.edit_message(embed=embed,view=View(),attachments=[])
 
             json_data = {}
-            with open(json_path, "r") as json_file:
+            with open(JSON_PATH, "r") as json_file:
                 json_data = json.load(json_file)
             user_cnt = len(json_data['users'])
 
@@ -119,7 +119,7 @@ class set_model(commands.Cog):
                     "model": is_selected[interaction.user.id]
                 })
             
-            with open(json_path, 'w') as outfile:
+            with open(JSON_PATH, 'w') as outfile:
                 json.dump(json_data, outfile, indent=4)
             embed.title = f"**{is_selected[interaction.user.id]}** 모델으로 설정했어요!"
             is_selected.pop(interaction.user.id)
@@ -161,5 +161,5 @@ class set_model(commands.Cog):
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         set_model(bot),
-        guilds=[discord.Object(id=guildid)]
+        guilds=[discord.Object(id=GUILD_ID)]
     )

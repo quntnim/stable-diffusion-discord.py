@@ -17,5 +17,5 @@ class ping(commands.Cog):
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         ping(bot),
-        guilds=[discord.Object(id=guildid)]
+        guilds=[discord.Object(id=GUILD_ID)]
     )

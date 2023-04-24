@@ -16,14 +16,18 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 
 ## 구현된 명령어
 
-### /get-options
+### /register
 
-- 현재 설정되있는 모델과 vae를 알려 줍니다.
+- 디스코드 봇에 내 정보를 등록합니다.
+
+### /profile
+
+- 유저의 프로필을 보여 줍니다.
 
 ### /set-model {query}
 
 - 현재 설정되있는 모델을 바꿉니다.
-- query (str) : 검색할 모델 명을 알려주는 문자열 입니다. 기본값 - None/
+- query (str) : 검색할 모델 명을 알려주는 문자열 입니다. 기본값 - None
 
 ### /memory
 
