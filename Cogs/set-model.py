@@ -22,27 +22,45 @@ class set_model(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="set-model")
-    async def set_model(self, interaction: discord.Interaction) -> None:
+    async def set_model(self, interaction: discord.Interaction, query : str = None) -> None:
         """현재 설정되있는 모델을 바꿉니다.
+
+        인자
+        ----------
+        query: str
+            검색할 모델 명을 알려주는 문자열 입니다. 기본값 - None
         """ 
         global page_now, is_selected
         is_selected[interaction.user.id] = False
         response = requests.get(url=f'{url}/sdapi/v1/sd-models')
         data = json.loads(response.text)
+        if query != None:
+            q = query.lower()
+            temp = []
+            for i in data:
+                if q in i['model_name'].lower():temp.append(i)
+            data = temp
+        
         model_cnt = len(data)
+        if not model_cnt:
+            await interaction.response.send_message(content='모델이 검색되지 않았어요.', ephemeral=True)
+            return
         page_lim = math.ceil(model_cnt/25)
         page_now = 1
         
         def selectmake():
             selop = []
             for i in range(25*(page_now-1),25*page_now):
-                if i == model_cnt-1:break
+                if i == model_cnt:break
                 selop.append(discord.SelectOption(label=f"{data[i]['model_name']}", description=f"{data[i]['hash']}"))
             return selop
 
 
         # UI 선언 및 콜백 함수
-        selects = Select(options=selectmake())
+        if query != None:
+            selects = Select(options=selectmake(),placeholder=f'모델 선택하기  |  검색 쿼리 : {query}')
+        else:
+            selects = Select(options=selectmake(),placeholder='모델 선택하기')
         left = Button(label='<<', style=ButtonStyle.primary)
         right = Button(label='>>', style=ButtonStyle.primary)
         page = Button(label = f'{page_now}/{page_lim}', style=ButtonStyle.grey, disabled=True)
@@ -60,7 +78,7 @@ class set_model(commands.Cog):
                 embed.set_image(url=f"attachment://{is_selected[interaction.user.id]}.png")
                 await interaction.response.edit_message(view=view_make(), embed=embed ,attachments=[res])
             except:
-                await interaction.response.edit_message(view=view_make(), embed=embed)
+                await interaction.response.edit_message(view=view_make(), embed=embed ,attachments=[])
 
 
         async def left_callback(interaction : discord.Interaction):
