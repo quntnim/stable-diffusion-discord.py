@@ -11,7 +11,7 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 | img2img | todo |
 | extras | todo |
 | png info | todo |
-| options | 30% |
+| options | 35% |
 | controlnet | todo |
 
 ## 구현된 명령어
@@ -20,9 +20,10 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 
 - 현재 설정되있는 모델과 vae를 알려 줍니다.
 
-### /set-model
+### /set-model {query}
 
 - 현재 설정되있는 모델을 바꿉니다.
+- query (str) : 검색할 모델 명을 알려주는 문자열 입니다. 기본값 - None/
 
 ### /memory
 
@@ -35,6 +36,6 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 - negative_prompt (str) : AI에게 하지 말아야 할 것을 알려주는 문자열 입니다. 기본값 - (low quality, worst quality:1.4), easynegative ,badhandv4, badv3, nsfw
 - width (int)  : 이미지의 너비 입니다. (width는 64에서 1024 사이의 정수여야 합니다.) 기본값 - 384
 - height (int) : 이미지의 높이 입니다. (height는 64에서 1024 사이의 정수여야 합니다.) 기본값 - 512
-- steps (int) : AI가 반복해서 그림을 그릴 횟수입니다 (steps는 1에서 50 사이의 정수여야 합니다.) 기본값 - 28
-- seed (bool) : 이미지 생성의 시드값을 정합니다 기본값 - -1
+- steps (int) : AI가 반복해서 그림을 그릴 횟수입니다. (steps는 1에서 50 사이의 정수여야 합니다.) 기본값 - 28
+- seed (bool) : 이미지 생성의 시드값을 정합니다. 기본값 - -1
 - hires_toggle (bool) : hires_fix의 여부를 정합니다. 기본값 - True

@@ -8,12 +8,13 @@ class SD_Bocchi(commands.Bot):
             command_prefix=".",
             intents=discord.Intents.all(),
             sync_command=True,
-            application_id=appid
+            application_id=APP_ID
         )
         self.inital_extension = [
             "Cogs.ping",
             "Cogs.memory",
-            "Cogs.get-options",
+            "Cogs.profile_",
+            "Cogs.register",
             "Cogs.set-model",
             "Cogs.txt2img",
 
@@ -22,7 +23,7 @@ class SD_Bocchi(commands.Bot):
     async def setup_hook(self):
         for ext in self.inital_extension:
             await self.load_extension(ext)
-        await bot.tree.sync(guild=discord.Object(id=guildid))
+        await bot.tree.sync(guild=discord.Object(id=GUILD_ID))
         # await bot.tree.sync()
 
 
@@ -48,4 +49,4 @@ class SD_Bocchi(commands.Bot):
 
 
 bot = SD_Bocchi()
-bot.run(token)
+bot.run(TOKEN)
