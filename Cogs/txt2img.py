@@ -7,7 +7,6 @@ import io
 import base64
 from PIL import Image, PngImagePlugin
 import asyncio
-import time
 from var import *
 from collections import deque
 
@@ -52,7 +51,7 @@ class txt2img(commands.Cog):
         """
         global is_drawing
         queued = False
-        if is_drawing:
+        if is_drawing or len(queue):
             await interaction.response.send_message(f"다른 그림을 다 그릴때 까지 기다리는 중..")
             queue.append(interaction.id)
             queued = interaction.id

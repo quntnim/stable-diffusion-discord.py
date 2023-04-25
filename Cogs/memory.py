@@ -3,8 +3,6 @@ from discord import app_commands
 from discord.ext import commands
 import json
 import requests
-import io
-import base64
 from var import *
 
 class memory(commands.Cog):

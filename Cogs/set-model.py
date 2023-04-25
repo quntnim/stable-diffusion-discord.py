@@ -5,9 +5,6 @@ from discord.ui import Button, View, Select
 from discord import ButtonStyle
 import json
 import requests
-import io
-import base64
-from PIL import Image, PngImagePlugin
 from var import *
 import math
 import asyncio
@@ -70,8 +67,7 @@ class set_model(commands.Cog):
         async def select_callback(interaction : discord.Interaction) -> None:
             global model_is_selected
             model_is_selected[interaction.user.id] = ''.join(selects.values)
-            embed=discord.Embed(title=f"{model_is_selected[interaction.user.id]}", color=0x4fff4a)
-            embed.set_author(name=f"{model_is_selected[interaction.user.id]} 모델로 바꿀까요?")
+            embed=discord.Embed(title=f"{model_is_selected[interaction.user.id]} 모델로 바꿀까요?", color=0x4fff4a)
             embed.set_footer(text="@bocchi#9621")
             try:
                 res = discord.File(f"{MODEL_PATH}{model_is_selected[interaction.user.id]}.png", filename=f"{model_is_selected[interaction.user.id]}.png")

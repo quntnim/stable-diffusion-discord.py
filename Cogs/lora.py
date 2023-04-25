@@ -3,12 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 from discord.ui import Button, View, Select
 from discord import ButtonStyle
-import json
-import requests
-import io
-import base64
 import os
-from PIL import Image, PngImagePlugin
 from var import *
 import math
 import asyncio

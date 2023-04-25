@@ -1,6 +1,6 @@
 <div align="center">
     <h1> | stable-diffusion-discord.py | </h1>
-    <p><a href="https://github.com/quntnim/stable-diffusion-discord.py/blob/main/README.md">KOR</a> / ENG</p>
+    <p><a href="https://github.com/quntnim/stable-diffusion-discord.py/blob/main/README.md">한국어</a> / ENG</p>
 </div>
 
 A project to make Stable Diffusion into a Discord bot using Stable Diffusion Web UI API
@@ -25,7 +25,7 @@ A project to make Stable Diffusion into a Discord bot using Stable Diffusion Web
 ### /profile {user}
 
 - Shows a user's profile.
-- user (str) : The user whose profile you want to check. Default - None
+- user (discord.user.User) : The user whose profile you want to check. Default - None
 
 ### /set-model {query}
 

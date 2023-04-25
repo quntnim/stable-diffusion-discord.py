@@ -25,7 +25,7 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 ### /profile {user}
 
 - 유저의 프로필을 보여 줍니다.
-- user (str) : 프로필을 확인할 유저입니다. 기본값 - None
+- user (discord.user.User) : 프로필을 확인할 유저입니다. 기본값 - None
 
 ### /set-model {query}
 

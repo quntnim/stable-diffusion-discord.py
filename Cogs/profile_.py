@@ -2,10 +2,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import json
-import requests
-import io
-import base64
-from PIL import Image, PngImagePlugin
 from var import *
 
 class profile_(commands.Cog):
