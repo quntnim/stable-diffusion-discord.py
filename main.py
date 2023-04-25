@@ -14,6 +14,7 @@ class SD_Bocchi(commands.Bot):
             "Cogs.ping",
             "Cogs.memory",
             "Cogs.profile_",
+            "Cogs.rank",
             "Cogs.register",
             "Cogs.set-model",
             "Cogs.lora",

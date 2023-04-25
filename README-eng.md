@@ -27,6 +27,10 @@ A project to make Stable Diffusion into a Discord bot using Stable Diffusion Web
 - Shows a user's profile.
 - user (discord.user.User) : The user whose profile you want to check. Default - None
 
+### /ranking
+
+- Shows a server user rankings.
+
 ### /set-model {query}
 
 - Change the currently set model.

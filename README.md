@@ -27,6 +27,10 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 - 유저의 프로필을 보여 줍니다.
 - user (discord.user.User) : 프로필을 확인할 유저입니다. 기본값 - None
 
+### /ranking
+
+- 서버의 유저 랭킹을 보여줍니다.
+
 ### /set-model {query}
 
 - 현재 설정되있는 모델을 바꿉니다.
