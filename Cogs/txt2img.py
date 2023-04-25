@@ -148,7 +148,7 @@ class txt2img(commands.Cog):
             pnginfo.add_text("parameters", response2.json().get("info"))
             image.save('output.png', pnginfo=pnginfo)
     
-        res = discord.File("D:\\github\\webuibot\\output.png", filename="output.png")
+        res = discord.File("./output.png", filename="output.png")
         embed=discord.Embed(title=f"텍스트 -> 이미지",description=interaction.user.mention, color=0x4fff4a)
         embed.set_image(url="attachment://output.png")
         embed.add_field(name="프롬프트", value=prompt, inline=False)
