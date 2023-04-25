@@ -11,7 +11,7 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 | img2img | todo |
 | extras | todo |
 | png info | todo |
-| options | 35% |
+| options | 40% |
 | controlnet | todo |
 
 ## 구현된 명령어
@@ -27,7 +27,12 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 ### /set-model {query}
 
 - 현재 설정되있는 모델을 바꿉니다.
-- query (str) : 검색할 모델 명을 알려주는 문자열 입니다. 기본값 - None
+- query (str) : 검색할 모델의 키워드 입니다. 기본값 - None
+
+### /lora {query}
+
+- 서버에 있는 로라를 검색합니다. (beta)
+- query (str) : 검색할 로라의 키워드 입니다.
 
 ### /memory
 

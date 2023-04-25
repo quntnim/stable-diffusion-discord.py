@@ -16,6 +16,7 @@ class SD_Bocchi(commands.Bot):
             "Cogs.profile_",
             "Cogs.register",
             "Cogs.set-model",
+            "Cogs.lora",
             "Cogs.txt2img",
 
         ]
