@@ -1,5 +1,7 @@
-# stable-diffusion-discord.py
-KOR / ENG(soon)
+<div align="center">
+    <h1> | stable-diffusion-discord.py | </h1>
+    <p>한국어 / <a href="https://github.com/quntnim/stable-diffusion-discord.py/blob/main/README-eng.md">ENG</a></p>
+</div>
 
 Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇으로 만들어 보는 프로젝트
 ## 기능 구현
@@ -20,9 +22,10 @@ Stable Diffusion Web UI API를 이용하여 Stable Diffusion을 디스코드 봇
 
 - 디스코드 봇에 내 정보를 등록합니다.
 
-### /profile
+### /profile {user}
 
 - 유저의 프로필을 보여 줍니다.
+- user (str) : 프로필을 확인할 유저입니다. 기본값 - None
 
 ### /set-model {query}
 
