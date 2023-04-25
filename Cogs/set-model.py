@@ -74,7 +74,7 @@ class set_model(commands.Cog):
             embed.set_author(name=f"{is_selected[interaction.user.id]} 모델로 바꿀까요?")
             embed.set_footer(text="@bocchi#9621")
             try:
-                res = discord.File(f".\\__model_preview\\{is_selected[interaction.user.id]}.png", filename=f"{is_selected[interaction.user.id]}.png")
+                res = discord.File(f"{MODEL_PATH}{is_selected[interaction.user.id]}.png", filename=f"{is_selected[interaction.user.id]}.png")
                 embed.set_image(url=f"attachment://{is_selected[interaction.user.id]}.png")
                 await interaction.response.edit_message(view=view_make(), embed=embed ,attachments=[res])
             except:
@@ -153,9 +153,9 @@ class set_model(commands.Cog):
             view.add_item(cancel)
             return view
 
-        embed=discord.Embed(title=f"아래 선택 메뉴에서 모델을 골라 주세요", color=0x777777)
+        embed=discord.Embed(title=f"아래 선택 메뉴에서 모델을 골라 주세요.", color=0x777777)
         embed.set_footer(text="@bocchi#9621")
-        await interaction.response.send_message(embed=embed, view=view_make())
+        await interaction.response.send_message(embed=embed, view=view_make(), ephemeral=True)
 
 
 async def setup(bot: commands.Bot) -> None:
