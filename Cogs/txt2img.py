@@ -37,7 +37,7 @@ class txt2img(commands.Cog):
         prompt: str
             AI에게 그려야 할 것을 알려주는 문자열 입니다.
         negative_prompt: str
-            AI에게 하지 말아야 할 것을 알려주는 문자열 입니다. 기본값 - (low quality, worst quality:1.4), easynegative ,badhandv4, badv3, nsfw
+            AI에게 그리지 말아야 할 것을 알려주는 문자열 입니다. 기본값 - (low quality, worst quality:1.4), easynegative ,badhandv4, badv3, nsfw
         width: int
             이미지의 너비 입니다. (width는 64에서 1024 사이의 정수여야 합니다.) 기본값 - 384
         height: int

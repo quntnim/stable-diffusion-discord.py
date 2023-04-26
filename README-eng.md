@@ -49,7 +49,7 @@ A project to make Stable Diffusion into a Discord bot using Stable Diffusion Web
 
 - Turns text into a picture.
 - prompt (str) : A string that tells the AI what to draw.
-- negative_prompt (str) : A string that tells the AI what not to do. Default - (low quality, worst quality:1.4), easynegative ,badhandv4, badv3, nsfw
+- negative_prompt (str) : A string that tells the AI what not to draw. Default - (low quality, worst quality:1.4), easynegative ,badhandv4, badv3, nsfw
 - width (int)  : The width of the image. (width must be an integer between 64 and 1024.) Default - 384
 - height (int) : The height of the image. (height must be an integer between 64 and 1024.) Default - 512
 - steps (int) : The number of times the AI will draw repeatedly. (steps must be an integer between 1 and 50.) Default - 28

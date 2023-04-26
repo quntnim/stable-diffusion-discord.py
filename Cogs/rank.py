@@ -10,11 +10,7 @@ class rank(commands.Cog):
 
     @app_commands.command(name="rank")
     async def rank(self, interaction: discord.Interaction) -> None:
-        """서버의 유저 랭킹을 보여줍니다.
-        
-        인자
-        ----------
-        """
+        """서버의 유저 랭킹을 보여줍니다."""
         json_data = {}
         with open(JSON_PATH, "r") as json_file:
             json_data = json.load(json_file)
